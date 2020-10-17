@@ -20,6 +20,7 @@ import { AboutComponent } from './about/about.component';
 
 import { DishService } from './services/dish.service';
 import { AppRoutingModule } from './app-routing/app-routing.module';
+import { PromotionService } from './services/promotion.service';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 
   ],
   providers: [
-    DishService
+    DishService,
+    PromotionService
   ],
   bootstrap: [AppComponent]
 })
