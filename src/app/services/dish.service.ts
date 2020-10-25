@@ -9,18 +9,18 @@ export class DishService {
 
   constructor() { }
 
-  getDishes(): Dish[] {
-    return DISHES;
+  getDishes(): Promise<Dish[]> {
+    return Promise.resolve(DISHES);
   }
 
   //return the 1st dish given the pass-in id
-  getDish(id: string): Dish{
-    return DISHES.filter((dish) => (dish.id === id))[0];
+  getDish(id: string): Promise<Dish>{
+    return Promise.resolve(DISHES.filter((dish) => (dish.id === id))[0]);
   }
 
   //return the 1st dish which featured = true
-  getFeaturedDish(): Dish {
-    return DISHES.filter((dish) => dish.featured)[0];
+  getFeaturedDish(): Promise<Dish> {
+    return Promise.resolve(DISHES.filter((dish) => dish.featured)[0]);
 
   }
 }

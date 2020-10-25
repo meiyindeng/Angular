@@ -9,18 +9,18 @@ import { PROMOTIONS } from '../shared/promotions';
 export class PromotionService {
 
   constructor() { }
-  getPromotions(): Promotion[] {
-    return PROMOTIONS;
+  getPromotions(): Promise<Promotion[]> {
+    return Promise.resolve(PROMOTIONS);
   }
 
   //return the 1st promotion dish given the pass-in id
-  getPromotion(id: string): Promotion{
-    return PROMOTIONS.filter((promo) => (promo.id === id))[0];
+  getPromotion(id: string): Promise<Promotion>{
+    return Promise.resolve(PROMOTIONS.filter((promo) => (promo.id === id))[0]);
   }
 
   //return the 1st promotion dish which featured = true
-  getFeaturedPromotion(): Promotion {
-    return PROMOTIONS.filter((promo) => promo.featured)[0];
+  getFeaturedPromotion(): Promise<Promotion> {
+    return Promise.resolve(PROMOTIONS.filter((promo) => promo.featured)[0]);
 
   }
 }
