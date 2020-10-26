@@ -54,27 +54,6 @@ export class ContactComponent implements OnInit {
     this.feedbackFormDirective.resetForm();
   }
 
-  showFirstNameError(){
-    if(this.feedbackForm.get('firstname').value==''){
-      return true;
-    }
-  }
-  showLastNameError(){
-    if(this.feedbackForm.get('lastname').value==''){
-      return true;
-    }
-  }
-  showTelNumError(){
-    if(this.feedbackForm.get('telnum').value==0){
-      return true;
-    }
-  }
-  showEmailError(){
-    if(this.feedbackForm.get('email').value==''){
-      return true;
-    }
-  }
-
   
 
 
