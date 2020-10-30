@@ -1,9 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Dish } from '../shared/dish';
 import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { DishService } from '../services/dish.service';
 import { switchMap } from 'rxjs/operators';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Comment } from '../shared/comment';
+
+
+
 
 
 
@@ -18,11 +23,35 @@ export class DishdetailComponent implements OnInit {
     dishIds: string[];
     prev: string;
     next: string;
+    commentForm: FormGroup;
+    Comment: Comment;
+    @ViewChild('cform') commentFormDirective;
+
+    formErrors = {
+      'comment': '',
+      'author': '',
+      
+  };
+
+  validationMessages = {
+
+    'comment': {
+      'required': 'Comment is required'
+    },
+    'author':{
+      'required': 'Author name is required.',
+      'minlength': 'Author name must be at least 2 characters long.'
+    }   
+  };
+
 
     constructor(
       private dishService: DishService, 
       private route: ActivatedRoute, 
-      private location: Location) { }
+      private location: Location,
+      private commentFormBuilder: FormBuilder){
+        this.createForm();
+      }
 
     ngOnInit() {
       //the dishService return an Observable<idArray>, pipe each id to the corresponding dishId.
@@ -36,6 +65,56 @@ export class DishdetailComponent implements OnInit {
       
     }
 
+    createForm(){
+      this.commentForm = this.commentFormBuilder.group({
+        rating: 5,
+        comment: ['', [Validators.required]],
+        author: ['', [Validators.required, Validators.minLength(2)]]
+      });
+    
+
+      this.commentForm.valueChanges
+        .subscribe(data => this.onValueChanged(data));
+
+      this.onValueChanged();  //reset form validation messages
+
+    }
+
+    onValueChanged(data?: any){
+      if(!this.commentForm){ return;}
+      const form = this.commentForm;
+      for (const field in this.formErrors){
+        if (this.formErrors.hasOwnProperty(field)){
+          // clear previous error message (if any)
+          this.formErrors[field] = '';
+          const control = form.get(field);
+          //check if the control is there, if the control is touched, and if the control is not valid
+          if (control && control.dirty && !control.valid){
+            const message = this.validationMessages[field];
+            for (const key in control.errors) {
+              if(control.errors.hasOwnProperty(key)){
+                this.formErrors[field] += message[key] + ' ';
+              }
+            }
+          }
+        }
+      }
+    }
+
+    onSubmit() {
+      this.Comment = this.commentForm.value;
+      this.Comment.date = new Date().toDateString();
+      console.log(this.Comment);
+      this.dish["comments"].push(this.Comment);
+      this.commentForm.reset({
+        rating: 5,
+        comment: '',
+        author: ''
+      });
+  
+    }
+  
+
     setPrevNext(dishId: string) {
       const index = this.dishIds.indexOf(dishId);
       this.prev = this.dishIds[(this.dishIds.length + index - 1) % this.dishIds.length];
@@ -46,6 +125,6 @@ export class DishdetailComponent implements OnInit {
       this.location.back();
     }
 
-  
+    
 
 }

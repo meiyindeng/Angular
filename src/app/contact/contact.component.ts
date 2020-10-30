@@ -14,7 +14,6 @@ export class ContactComponent implements OnInit {
   feedback: Feedback;
   contactType = ContactType;
   @ViewChild('fform') feedbackFormDirective;
-  error1: Boolean;
 
   formErrors = {
       'firstname': '',
