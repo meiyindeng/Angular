@@ -26,6 +26,8 @@ export class DishdetailComponent implements OnInit {
     commentForm: FormGroup;
     Comment: Comment;
     @ViewChild('cform') commentFormDirective;
+    errMess: string;
+
 
     formErrors = {
       'comment': '',
@@ -57,12 +59,14 @@ export class DishdetailComponent implements OnInit {
     ngOnInit() {
       //the dishService return an Observable<idArray>, pipe each id to the corresponding dishId.
       //idArray is the observer object receive notifications from the dishService
-      this.dishService.getDishIds().subscribe((idArray) => this.dishIds = idArray);
+      this.dishService.getDishIds().subscribe((idArray) => this.dishIds = idArray, 
+        errmess => this.errMess = <any>errmess);
 
       //make use of the params observable, set this.dish with the return from getDish,
       //set the prev and next from the returnDish.id
       this.route.params.pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])))
-      .subscribe(receivedDish => { this.dish = receivedDish; this.setPrevNext(receivedDish.id); });
+      .subscribe(receivedDish => { this.dish = receivedDish; this.setPrevNext(receivedDish.id); },
+        errmess => this.errMess = <any>errmess);
       
     }
 
