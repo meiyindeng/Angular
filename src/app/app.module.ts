@@ -37,6 +37,7 @@ import { PromotionService } from './services/promotion.service';
 import { LeaderService } from './services/leader.service';
 import { LoginComponent } from './login/login.component';
 import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
+import { HighlightDirective } from './directives/highlight.directive';
 
 
 
@@ -51,6 +52,7 @@ import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
     ContactComponent,
     AboutComponent,
     LoginComponent,
+    HighlightDirective,
 
 
  

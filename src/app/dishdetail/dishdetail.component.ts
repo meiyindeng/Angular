@@ -6,6 +6,7 @@ import { DishService } from '../services/dish.service';
 import { switchMap } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Comment } from '../shared/comment';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 
 
@@ -15,7 +16,20 @@ import { Comment } from '../shared/comment';
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
-  styleUrls: ['./dishdetail.component.scss']
+  styleUrls: ['./dishdetail.component.scss'],
+  animations: [
+    trigger('visibility', [
+      state('shown', style({
+        transform: 'scale(1.0)',
+        opacity: 1
+      })),
+      state('hidden', style({
+        transform: 'scale(0.5)',
+        opacity: 0
+      })),
+      transition('* => *', animate('0.1s ease-in-out'))
+    ])
+  ]
 })
 export class DishdetailComponent implements OnInit {
     
@@ -28,6 +42,7 @@ export class DishdetailComponent implements OnInit {
     @ViewChild('cform') commentFormDirective;
     errMess: string;
     dishcopy: Dish;
+    visibility = 'shown';
 
 
     formErrors = {
@@ -65,8 +80,9 @@ export class DishdetailComponent implements OnInit {
 
       //make use of the params observable, set this.dish with the return from getDish,
       //set the prev and next from the returnDish.id
-      this.route.params.pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])))
-      .subscribe(receivedDish => { this.dish = receivedDish; this.dishcopy = receivedDish; this.setPrevNext(receivedDish.id); },
+      this.route.params
+      .pipe(switchMap((params: Params) => { this.visibility = 'hidden'; return this.dishService.getDish(params['id']); }))
+      .subscribe(receivedDish => { this.dish = receivedDish; this.dishcopy = receivedDish; this.setPrevNext(receivedDish.id); this.visibility='shown';},
         errmess => this.errMess = <any>errmess);
       
     }
@@ -114,7 +130,7 @@ export class DishdetailComponent implements OnInit {
       //add the comment to the dishcopy object,
       this.dishcopy.comments.push(this.Comment);
 
-      //when there's a modified dish, it's sending the dishcopy, when the server reply back wih the modified dish,
+      //when there's a modified dish, it's sending the dishcopy, when the server reply back wiih the modified dish,
       //push the dish with the modified dish.
       this.dishService.putDish(this.dishcopy)
         .subscribe(modifiedDish => {
