@@ -27,6 +27,7 @@ export class DishdetailComponent implements OnInit {
     Comment: Comment;
     @ViewChild('cform') commentFormDirective;
     errMess: string;
+    dishcopy: Dish;
 
 
     formErrors = {
@@ -52,7 +53,7 @@ export class DishdetailComponent implements OnInit {
       private route: ActivatedRoute, 
       private location: Location,
       private commentFormBuilder: FormBuilder,
-      @Inject('BaseURL') private BaseURL){
+      @Inject('BaseURL') private baseURL){
         this.createForm();
       }
 
@@ -65,7 +66,7 @@ export class DishdetailComponent implements OnInit {
       //make use of the params observable, set this.dish with the return from getDish,
       //set the prev and next from the returnDish.id
       this.route.params.pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])))
-      .subscribe(receivedDish => { this.dish = receivedDish; this.setPrevNext(receivedDish.id); },
+      .subscribe(receivedDish => { this.dish = receivedDish; this.dishcopy = receivedDish; this.setPrevNext(receivedDish.id); },
         errmess => this.errMess = <any>errmess);
       
     }
@@ -110,7 +111,17 @@ export class DishdetailComponent implements OnInit {
       this.Comment = this.commentForm.value;
       this.Comment.date = new Date().toISOString();
       console.log(this.Comment);
-      this.dish["comments"].push(this.Comment);
+      //add the comment to the dishcopy object,
+      this.dishcopy.comments.push(this.Comment);
+
+      //when there's a modified dish, it's sending the dishcopy, when the server reply back wih the modified dish,
+      //push the dish with the modified dish.
+      this.dishService.putDish(this.dishcopy)
+        .subscribe(modifiedDish => {
+          this.dish = modifiedDish; this.dishcopy = modifiedDish;
+        },
+        errmess => {this.dish = null; this.dishcopy = null; this.errMess = <any>errmess; });
+
       this.commentForm.reset({
         rating: 5,
         comment: '',

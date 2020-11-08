@@ -29,7 +29,7 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { ContactComponent } from './contact/contact.component';
 import { AboutComponent } from './about/about.component';
-import { BaseURL } from './shared/baseurl';
+import { baseURL } from './shared/baseurl';
 
 import { DishService } from './services/dish.service';
 import { AppRoutingModule } from './app-routing/app-routing.module';
@@ -84,7 +84,7 @@ import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
     DishService,
     PromotionService,
     LeaderService,
-    { provide: 'BaseURL', useValue: BaseURL  },
+    { provide: 'BaseURL', useValue: baseURL  },
     ProcessHTTPMsgService
   ],
   entryComponents:[
@@ -94,3 +94,4 @@ import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
