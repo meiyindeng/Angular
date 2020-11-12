@@ -1,6 +1,7 @@
 <div class="container"
   fxLayout="column"
-  fxLayoutGap="10px">
+  fxLayoutGap="15px"
+  fxLayoutAlign="space-between">
 
   <div fxFlex>
     <div>
@@ -35,10 +36,28 @@
       </div>
     </div>
   </div>
-  <div fxFlex fxFlexOffset="20px" class="form-size">
+
+  <div *ngIf="showSpinner && !feedback">
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <mat-spinner></mat-spinner> <h4>Loading ... Please Wait!</h4>
+    </div>
+  </div>
+    
+  <div fxFlex="100" *ngIf="feedback" [@expand]>
+    <p>Thank you for your contacting us!</p>
+    <p>First Name: {{feedback.firstname}}</p>
+    <p>Last Name: {{feedback.lastname}}</p>
+    <p>Telephone Number: {{feedback.telnum}}</p>
+    <p>Email: {{feedback.email}}</p>
+    <p>Contact You: {{feedback.agree}}</p>
+    <p>Contact Type: {{feedback.contacttype}}</p>
+    <p>Feedback Message: {{feedback.message}}</p>
+
+  </div>
+  <div fxFlex="100" fxFlexOffset="20px" class="form-size" [@visibility]="visibility">
     <h3>Send us your Feedback</h3> 
 
-    <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onSubmit()">
+    <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onSubmit()" >
       <p>
         <mat-form-field class="half-width">
           <input matInput formControlName="firstname" placeholder="First Name" type="text" required>
@@ -79,5 +98,11 @@
       <button type="submit" mat-button class="background-primary text-floral-white">Submit</button>
     </form>
   </div>
+
+
+ 
+
+
+ 
 </div>
         

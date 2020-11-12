@@ -10,7 +10,7 @@ export function visibility () {
           transform: 'scale(0.5)',
           opacity: 0
         })),
-        transition('* => *', animate('60ms ease-in-out'))
+        transition('* => *', animate('1s ease-in-out'))
       ])
 }
 
@@ -46,7 +46,7 @@ export function expand(){
             style({ 
                 transform: 'translateY(-50%)', opacity: 0
             }),
-            animate('200ms ease-in', style({ 
+            animate('500ms ease-in', style({ 
                 transform: 'translateX(0)', opacity: 1
             }))
         ])
