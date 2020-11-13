@@ -146,12 +146,14 @@ export class ContactComponent implements OnInit {
       message: ''
     });
 
+
+
     this.feedbackFormDirective.resetForm();
 
-    setTimeout(()=>this.feedback=null, 8000);
+    setTimeout(()=> {this.feedback=null; this.errMess= null}, 8000);
     
 
-    setTimeout(()=>this.visibility="shown", 10000);
+    setTimeout(()=> {this.visibility="shown"; this.showSpinner=false}, 10000);
   
     
   }

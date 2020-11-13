@@ -37,7 +37,7 @@
     </div>
   </div>
 
-  <div *ngIf="showSpinner && !feedback">
+  <div *ngIf="showSpinner && !feedback && !errMess">
     <div fxLayout="row" fxLayoutAlign="center center">
       <mat-spinner></mat-spinner> <h4>Loading ... Please Wait!</h4>
     </div>
@@ -52,8 +52,13 @@
     <p>Contact You: {{feedback.agree}}</p>
     <p>Contact Type: {{feedback.contacttype}}</p>
     <p>Feedback Message: {{feedback.message}}</p>
-
   </div>
+
+  <div fxFlex="100" *ngIf="errMess" [@expand] class="warning">
+    <h2>Error: {{errMess}}</h2>  
+    <h3> Please try again later</h3>
+  </div>
+
   <div fxFlex="100" fxFlexOffset="20px" class="form-size" [@visibility]="visibility">
     <h3>Send us your Feedback</h3> 
 
