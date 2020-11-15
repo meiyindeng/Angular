@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
       errmess => this.dishErrMess = <any>errmess);
     this.promotionService.getFeaturedPromotion()
     .subscribe ( promotion => this.promotion = promotion);
-    this.leaderService.getFeatureLeader()
+    this.leaderService.getFeaturedLeader()
     .subscribe ( leader => this.leader = leader);
   }
 

@@ -135,6 +135,7 @@ export class ContactComponent implements OnInit {
        
     
 
+    console.log(this.feedback);
 
     this.feedbackForm.reset({
       firstname: '',
